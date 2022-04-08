@@ -1,0 +1,35 @@
+version: '3.8'
+
+volumes:
+  probe-emqx-etc:
+    external: true
+  probe-emqx-data:
+    external: true
+
+
+services:
+  emqx:
+    image: probe.yamucloud.com:8666/emqx/default:6-2
+    privileged: true
+    volumes:
+      - type: volume
+        source: probe-emqx-etc
+        target: /opt/emqx/etc
+      - type: volume
+        source: probe-emqx-data
+        target: /opt/emqx/data
+      - type: bind
+        source: ./emqx_auth_redis.conf
+        target: /opt/emqx/etc/plugins/emqx_auth_redis.conf
+      - type: bind
+        source: ./certs
+        target: /certs
+    restart: always
+    container_name: probe-emqx
+    ports:
+      - "18083:18083"
+      - "8883:8883"
+      - "1883:1883"
+      - "8081:8081"
+    env_file:
+      - emqx.env

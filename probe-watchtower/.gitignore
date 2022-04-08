@@ -1,0 +1,6 @@
+*.tmp
+*.log
+config.json.dev
+config.json.prod
+config.default.json
+config.json.standalone.d/

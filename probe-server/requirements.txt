@@ -1,0 +1,20 @@
+asyncio-nats-client
+click
+ipip-ipdb==1.6.0
+arrow
+ipython
+schema
+aiohttp[speedups]
+httpx
+redis
+aioredis>=2
+loguru==0.5.3
+asyncio-mqtt==0.10.0
+tornado
+prettytable
+selenium==4.0.0b4
+requests
+
+# for elasticsearch
+elasticsearch[async]>=7.0.0,<8.0.0
+elasticsearch-dsl>=7.0.0,<8.0.0

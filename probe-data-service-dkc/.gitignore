@@ -1,0 +1,7 @@
+# Created by .ignore support plugin (hsz.mobi)
+*.log
+*.bak
+*.tmp
+es/log/*
+es/data/*
+es/*

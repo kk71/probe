@@ -1,0 +1,34 @@
+# Author: kk.Fang(fkfkbill@gmail.com)
+
+
+# 时间格式(arrow)
+
+COMMON_DATETIME_FORMAT = 'YYYY-MM-DD HH:mm:ss'
+COMMON_DATE_FORMAT = 'YYYY-MM-DD'
+COMMON_DATE_FORMAT_COMPACT = 'YYYYMMDD'
+COMMON_TIME_FORMAT = 'HH:mm:ss'
+
+
+# 注册状态
+
+ALL_DEVICE_STATUS = (
+    DEVICE_STATUS_REGISTERING := "registering",
+    DEVICE_STATUS_OFFLINE := "offline",
+    DEVICE_STATUS_ONLINE := "online",
+    DEVICE_STATUS_DEREGISTERED := "deregistered"
+)
+
+
+# 设备管理操作行为
+ALL_DEVICE_MANAGEMENT_ACTIONS = (
+    DEVICE_MANAGEMENT_ACTION_REGISTER := "register"    # 申请注册
+)
+
+# 系统通知消息等级
+ALL_SYSTEM_NOTIFICATION_LEVEL = (
+    SYSTEM_NOTIFICATION_LEVEL_WARNING := 1,
+    SYSTEM_NOTIFICATION_LEVEL_ERROR := 2
+)
+
+# 临时消息频道
+EMQX_TEMP_TOPIC_PREFIX = "temp_topic/"

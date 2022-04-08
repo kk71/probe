@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>probe-network-bigdata-parent</artifactId>
+        <groupId>com.yamu.bigdata.product.probe</groupId>
+        <version>0.0.1</version>
+        <relativePath>../probe-network-bigdata-parent/pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>probe-network-commons</artifactId>
+
+
+        <build>
+            <finalName>probe-network-commons</finalName>
+            <sourceDirectory>src/main/java</sourceDirectory>
+            <testSourceDirectory>src/test/java</testSourceDirectory>
+            <outputDirectory>target</outputDirectory>
+            <resources>
+                <!-- 控制资源文件的拷贝 -->
+                <resource>
+                    <!-- 本任用的idea 打包时需要修改src/main/java/resources 为 src/main/resources  否则配置文件打包不到,运行时又需要改回去,否则无法运行-->
+                    <directory>src/main/resources</directory>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <!-- 开发环境注释开始 -->
+                    <filtering>false</filtering>
+                    <targetPath>${project.build.directory}/config</targetPath>
+                    <!--开发环境注释结束-->
+                </resource>
+            </resources>
+            <plugins>
+                <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <archive>
+                            <!-- 清单文件 -->
+                            <manifest>
+<!--                                <mainClass>com.yamu.bigdata.test.EsBatchThreadPut</mainClass>-->
+                                <addClasspath>true</addClasspath>
+                                <classpathPrefix>lib/</classpathPrefix>
+                            </manifest>
+                            <!-- 给清单文件添加键值对(配置文件外置) -->
+                            <manifestEntries>
+                                <Class-Path>config/</Class-Path>
+                            </manifestEntries>
+                        </archive>
+                        <classesDirectory>
+                        </classesDirectory>
+                    </configuration>
+                </plugin>
+                <!-- 拷贝依赖的jar包到lib目录 -->
+<!--                <plugin>-->
+<!--                    <groupId>org.apache.maven.plugins</groupId>-->
+<!--                    <artifactId>maven-dependency-plugin</artifactId>-->
+<!--                    <version>3.1.0</version>-->
+<!--                    <executions>-->
+<!--                        <execution>-->
+<!--                            <id>copy</id>-->
+<!--                            <phase>package</phase>-->
+<!--                            <goals>-->
+<!--                                <goal>copy-dependencies</goal>-->
+<!--                            </goals>-->
+<!--                            <configuration>-->
+<!--                                <outputDirectory>-->
+<!--                                    ${project.build.directory}/lib-->
+<!--                                </outputDirectory>-->
+<!--                            </configuration>-->
+<!--                        </execution>-->
+<!--                    </executions>-->
+<!--                </plugin>-->
+                <!-- 解决资源文件的编码问题 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
+                <!-- 打包source文件为jar文件 -->
+                <plugin>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.1.0</version>
+                    <configuration>
+                        <attach>true</attach>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>8</source>
+                        <target>8</target>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+
+</project>

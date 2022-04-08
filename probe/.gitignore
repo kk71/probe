@@ -1,0 +1,15 @@
+venv/
+.idea/
+config.json
+nohup.out
+result.log
+yamu_client_pid.lock
+*.pyc
+.env/
+__pycache__
+build/
+dist/
+.DS_Store
+yamu_modules/__pycache__
+*.log
+yamu_modules/__pycache__/dns.cpython-38.pyc

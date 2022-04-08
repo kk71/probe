@@ -1,0 +1,106 @@
+version: '3.8'
+
+services:
+  redis:
+    image: probe.yamucloud.com:8666/contrib/redis:6.2.4
+    volumes:
+      - type: bind
+        source: ./redis-data
+        target: /data
+      - type: bind
+        source: ./redis.conf
+        target: /etc/redis/redis.conf
+    restart: always
+    container_name: probe-redis
+    command: redis-server /etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  mysql:
+    image: probe.yamucloud.com:8666/contrib/mysql:5.7.34
+    volumes:
+    - type: bind
+      source: ./mysql-data
+      target: /var/lib/mysql
+    - type: bind
+      source: ./my.cnf
+      target: /etc/my.cnf
+    ports:
+    - "33066:33066"
+    environment:
+      MYSQL_ROOT_PASSWORD: default
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  nats:
+    image: probe.yamucloud.com:8666/contrib/nats:2.2.6-scratch
+    volumes:
+    - type: bind
+      source: ./nats.conf
+      target: /nats-server.conf
+    restart: always
+    container_name: probe-nats
+    ports:
+    - "4222:4222"
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  es-1:
+    image: probe.yamucloud.com:8666/contrib/elasticsearch:7.7.1
+    restart: always
+    container_name: probe-es-1
+    volumes:
+      - type: bind
+        source: ./es/data
+        target: /data
+      - type: bind
+        source: ./es/log
+        target: /var/log/elasticsearch
+      - type: bind
+        source: ./elasticsearch.yml
+        target: /usr/share/elasticsearch/config/elasticsearch.yml
+      - type: bind
+        source: ./es-x-pack-keys
+        target: /usr/share/elasticsearch/config/keys
+    ports:
+      - "9200:9200"
+    environment:
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms3g -Xmx3g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100mb"
+        max-file: "2"
+
+  # notice: this is optional for production
+  kibana:
+    image: probe.yamucloud.com:8666/contrib/kibana:7.7.1
+    restart: always
+    container_name: probe-kibana
+    volumes:
+      - type: bind
+        source: ./kibana.yml
+        target: /usr/share/kibana/config/kibana.yml
+    ports:
+      - "8601:8601"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100mb"
+        max-file: "2"

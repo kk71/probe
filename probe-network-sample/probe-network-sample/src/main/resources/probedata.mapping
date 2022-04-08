@@ -1,0 +1,297 @@
+{
+  "probedata" : {
+    "mappings" : {
+      "properties" : {
+        "task_id" : {
+          "type" : "keyword"
+        },
+        "task_probing_id" : {
+          "type" : "keyword"
+        },
+        "answer" : {
+          "properties" : {
+            "carrier" : {
+              "type" : "keyword"
+            },
+            "city" : {
+              "type" : "keyword"
+            },
+            "city_id" : {
+              "type" : "keyword"
+            },
+            "country" : {
+              "type" : "keyword"
+            },
+            "country_id" : {
+              "type" : "keyword"
+            },
+            "gps" : {
+              "type" : "geo_point"
+            },
+            "ip" : {
+              "type" : "keyword"
+            },
+            "province" : {
+              "type" : "keyword"
+            },
+            "province_id" : {
+              "type" : "keyword"
+            },
+            "results_a" : {
+              "type" : "keyword"
+            }
+          }
+        },
+        "client_id" : {
+          "type" : "keyword"
+        },
+        "client_ip" : {
+          "properties" : {
+            "carrier" : {
+              "type" : "keyword"
+            },
+            "city" : {
+              "type" : "keyword"
+            },
+            "city_id" : {
+              "type" : "keyword"
+            },
+            "country" : {
+              "type" : "keyword"
+            },
+            "country_id" : {
+              "type" : "keyword"
+            },
+            "gps" : {
+              "type" : "geo_point"
+            },
+            "ip" : {
+              "type" : "keyword"
+            },
+            "province" : {
+              "type" : "keyword"
+            },
+            "province_id" : {
+              "type" : "keyword"
+            },
+            "location_id": {"type": "keyword"}
+          }
+        },
+        "client_version" : {
+          "type" : "keyword"
+        },
+        "create_time" : {
+          "type" : "date"
+        },
+        "delay" : {
+          "type" : "float"
+        },
+        "dns_response_status" : {
+          "type" : "keyword"
+        },
+        "dns_server_ip" : {
+          "properties" : {
+            "carrier" : {
+              "type" : "keyword"
+            },
+            "city" : {
+              "type" : "keyword"
+            },
+            "city_id" : {
+              "type" : "keyword"
+            },
+            "country" : {
+              "type" : "keyword"
+            },
+            "country_id" : {
+              "type" : "keyword"
+            },
+            "gps" : {
+              "type" : "geo_point"
+            },
+            "ip" : {
+              "type" : "keyword"
+            },
+            "province" : {
+              "type" : "keyword"
+            },
+            "location_id": {"type": "keyword"},
+            "province_id" : {
+              "type" : "text",
+              "fields" : {
+                "keyword" : {
+                  "type" : "keyword",
+                  "ignore_above" : 256
+                }
+              }
+            }
+          }
+        },
+        "domain" : {
+          "type" : "keyword"
+        },
+        "end_time" : {
+          "type" : "date"
+        },
+        "expiration_time" : {
+          "type" : "date"
+        },
+        "gid" : {
+          "type" : "keyword"
+        },
+        "gps" : {
+          "type" : "keyword"
+        },
+        "min_client_version" : {
+          "type" : "keyword"
+        },
+        "probe_task_status" : {
+          "type" : "keyword"
+        },
+        "push_time" : {
+          "type" : "date"
+        },
+        "receive_time" : {
+          "type" : "date"
+        },
+        "rrtype" : {
+          "type" : "keyword"
+        },
+        "start_time" : {
+          "type" : "date"
+        },
+        "task_send_time" : {
+          "type" : "date"
+        },
+        "task_type" : {
+          "type" : "keyword"
+        },
+        "timezone" : {
+          "type" : "keyword"
+        },
+        "ttl" : {
+          "type" : "float"
+        },
+        "destination": {
+          "type": "keyword"
+        },
+        "ip": {
+          "type": "keyword"
+        },
+        "routes": {
+          "properties": {
+            "ip": {
+              "type": "keyword"
+            },
+            "distance": {
+              "type": "keyword"
+            },
+            "packets_sent": {
+              "type": "keyword"
+            },
+            "packets_received": {
+              "type": "keyword"
+            },
+            "packet_loss": {
+              "type": "keyword"
+            },
+            "max_rtt": {
+              "type": "float"
+            },
+            "min_rtt": {
+              "type": "float"
+            },
+            "location": {
+              "properties": {
+                "carrier": {"type": "keyword"},
+                "country": {"type": "keyword"},
+                "country_id": {"type": "keyword"},
+                "province": {"type": "keyword"},
+                "province_id": {"type": "keyword"},
+                "city": {"type": "keyword"},
+                "city_id": {"type": "keyword"},
+                "location_id": {"type": "keyword"},
+                "ip": {"type": "keyword"},
+                "gps": {
+                  "properties": {
+                    "lon": {"type": "float"},
+                    "lat": {"type": "float"}
+                  }
+                }
+              }
+            }
+            }
+        },
+        "last_route": {
+          "properties": {
+            "ip": {
+              "type": "keyword"
+            },
+            "distance": {
+              "type": "integer"
+            },
+            "packets_sent": {
+              "type": "keyword"
+            },
+            "packets_received": {
+              "type": "keyword"
+            },
+            "packet_loss": {
+              "type": "keyword"
+            },
+            "max_rtt": {
+              "type": "float"
+            },
+            "min_rtt": {
+              "type": "float"
+            },
+            "location": {
+              "properties": {
+                "carrier": {"type": "keyword"},
+                "country": {"type": "keyword"},
+                "country_id": {"type": "keyword"},
+                "province": {"type": "keyword"},
+                "province_id": {"type": "keyword"},
+                "city": {"type": "keyword"},
+                "city_id": {"type": "keyword"},
+                "location_id": {"type": "keyword"},
+                "ip": {"type": "keyword"},
+                "gps": {
+                  "properties": {
+                    "lon": {"type": "float"},
+                    "lat": {"type": "float"}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "http_info": {
+          "properties": {
+            "url": {
+              "type": "keyword"
+            },
+            "domain": {
+              "type": "keyword"
+            },
+            "dns_server": {
+              "type": "keyword"
+            },
+            "ip": {
+              "type": "keyword"
+            },
+            "response_time": {
+              "type": "keyword"
+            },
+            "create_time": {
+              "type" : "date"
+            },
+            "probe_task_status": {
+              "type": "keyword"
+            }
+          }
+        }
+      }
+    }
+  }
+}

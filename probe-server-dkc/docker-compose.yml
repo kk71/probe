@@ -1,0 +1,113 @@
+version: '3.8'
+
+# notice
+# this docker-compose.yml has two versions in branch
+# dev branch is for development and testing, all images should use latest tag
+# master branch is for production, PLEASE USE VERSION TAG! DO NOT USE latest TAG!
+
+services:
+  scheduler:
+    image: probe.yamucloud.com:8666/probe-server/dev:latest
+    working_dir: /project
+    volumes:
+      - type: bind
+        source: ./logs/scheduler
+        target: /project/.log
+      - type: bind
+        source: ./setting.json
+        target: /project/setting.json
+    command: python app.py scheduler
+    restart: always
+    container_name: probe-server-scheduler
+    env_file:
+      - ./docker-compose.env
+    ports:
+      - "0.0.0.0:4888:8888"
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "2"
+
+  controller:
+    image: probe.yamucloud.com:8666/probe-server/dev:latest
+    working_dir: /project
+    volumes:
+      - type: bind
+        source: ./logs/controller
+        target: /project/.log
+      - type: bind
+        source: ./setting.json
+        target: /project/setting.json
+    command: python app.py controller
+    restart: always
+    container_name: probe-server-controller
+    env_file:
+      - ./docker-compose.env
+    ports:
+    - "0.0.0.0:3888:8888"
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "2"
+
+  analyser:
+    image: probe.yamucloud.com:8666/probe-server/dev:latest
+    working_dir: /project
+    volumes:
+      - type: bind
+        source: ./logs/analyser
+        target: /project/.log
+      - type: bind
+        source: ./setting.json
+        target: /project/setting.json
+    command: python app.py analyser
+    restart: always
+    container_name: probe-server-analyser
+    env_file:
+      - ./docker-compose.env
+    ports:
+      - "0.0.0.0:5888:8888"
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "2"
+
+  statistics:
+    image: probe.yamucloud.com:8666/probe-server/dev:latest
+    working_dir: /project
+    volumes:
+      - type: bind
+        source: ./logs/statistics
+        target: /project/.log
+      - type: bind
+        source: ./setting.json
+        target: /project/setting.json
+    command: python app.py statistics
+    restart: always
+    container_name: probe-server-statistics
+    env_file:
+      - ./docker-compose.env
+    ports:
+      - "0.0.0.0:6888:8888"
+    logging:
+      driver: json-file
+      options:
+        max-size: "100m"
+        max-file: "2"
+
+  data:
+    image: probe.yamucloud.com:8666/probe-network-sample/dev:latest
+    restart: always
+    container_name: probe-data
+#    volumes:
+#      - type: bind
+#        source: ./application-default.properties
+#        target: /project/config/application-default.properties
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10mb"
+        max-file: "2"

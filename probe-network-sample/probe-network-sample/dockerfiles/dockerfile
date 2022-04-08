@@ -1,0 +1,11 @@
+# Author: kk.Fang(fkfkbill@gmail.com)
+
+FROM openjdk:8
+MAINTAINER bill
+
+WORKDIR /project
+COPY ./probe-network-sample/target/probe-network-sample.jar /project/
+COPY ./probe-network-sample/src/main/resources /project/config
+COPY ./probe-network-bigdata-parent/conf/IPIP.ipdb /project/probe-network-bigdata-parent/conf/IPIP.ipdb
+ENV TZ=Asia/Shanghai
+CMD java -jar /project/probe-network-sample.jar

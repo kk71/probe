@@ -1,0 +1,20 @@
+dnspython==2.1.0
+netaddr==0.8.0
+netifaces==0.10.9
+click
+arrow
+ipython
+schema
+httpx[http2]<0.18
+loguru==0.5.3
+asyncio-mqtt==0.10.0
+prettytable
+icmplib
+furl
+
+# since some C-based code can't be cross-compiled at this time,
+# the following alternative packages are supported for different platform
+# for routers
+ping3
+# for x86 only, but supports asyncio
+aioping

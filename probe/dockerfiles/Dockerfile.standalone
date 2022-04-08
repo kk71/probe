@@ -1,0 +1,14 @@
+# Author: kk.Fang(fkfkbill@gmail.com)
+
+FROM python:3.8-slim
+MAINTAINER bill
+
+WORKDIR /project
+COPY .. /project/
+RUN bash -c "\
+    pip install --no-cache-dir packages/*  &&\
+    pip install --no-cache-dir -i https://pypi.doubanio.com/simple/ --no-cache-dir -r requirements.txt\
+"
+ENV TZ=Asia/Shanghai PYTHONUNBUFFERED=x PYTHONPATH=$PYTHONPATH:/project TAG=standalone
+ENV PARAMS=""
+CMD python app.py probe $PARAMS

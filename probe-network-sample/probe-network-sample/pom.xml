@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>probe-network-bigdata-parent</artifactId>
+        <groupId>com.yamu.bigdata.product.probe</groupId>
+        <version>0.0.1</version>
+        <relativePath>../probe-network-bigdata-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>probe-network-sample</artifactId>
+    <version>2.0.23</version>
+    <description>简化版，一个jar包实现数据接入，分析，推送</description>
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    <dependencies>
+        <!--mq start-->
+        <dependency>
+            <groupId>org.eclipse.paho</groupId>
+            <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
+            <version>${emqx.client.version}</version>
+        </dependency>
+        <!--mq end-->
+
+        <!--probe commons start-->
+        <dependency>
+            <groupId>com.yamu.bigdata.product.probe</groupId>
+            <artifactId>probe-network-commons</artifactId>
+            <version>${probe.version}</version>
+        </dependency>
+        <!--probe commons end-->
+
+        <!--elasticsearch start-->
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>${elasticsearch.version}</version>
+        </dependency>
+        <!--elasticsearch end-->
+
+        <!--json start-->
+        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <!--json end-->
+
+        <!--redis start-->
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${redis.version}</version>
+        </dependency>
+        <!--redis end-->
+
+        <!--nats start-->
+        <!-- https://mvnrepository.com/artifact/io.nats/jnats -->
+        <dependency>
+            <groupId>io.nats</groupId>
+            <artifactId>jnats</artifactId>
+            <version>${nats.version}</version>
+        </dependency>
+        <!--nats end-->
+
+        <!-- mysql start -->
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>${mybatis.version}</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+        <!-- mysql end -->
+
+        <!-- ipdb start -->
+        <!-- https://mvnrepository.com/artifact/net.ipip/ipdb -->
+        <dependency>
+            <groupId>net.ipip</groupId>
+            <artifactId>ipdb</artifactId>
+            <version>${ipdb.version}</version>
+        </dependency>
+        <!-- ipdb end -->
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+            <version>2.8.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.9.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>probe-network-sample</finalName>
+        <sourceDirectory>src/main/java</sourceDirectory>
+<!--        <testSourceDirectory>src/test/java</testSourceDirectory>-->
+        <outputDirectory>target</outputDirectory>
+        <resources>
+            <!-- 控制资源文件的拷贝 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>${project.build.directory}/config</targetPath>
+            </resource>
+        </resources>
+        <plugins>
+            <!-- 打包jar文件时，配置manifest文件，加入lib包的jar依赖 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                        <!-- 清单文件 -->
+                        <manifest>
+                            <mainClass>com.yamu.bigdata.product.probe.sample.Main</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                        <!-- 给清单文件添加键值对(配置文件外置) -->
+                        <manifestEntries>
+                            <Class-Path>config/</Class-Path>
+                        </manifestEntries>
+                    </archive>
+                    <includes>
+                        <include>**/com/</include>
+                    </includes>
+                    <classesDirectory>
+                    </classesDirectory>
+                </configuration>
+            </plugin>
+            <!-- 拷贝依赖的jar包到lib目录 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 解决资源文件的编码问题 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <!-- 打包source文件为jar文件 -->
+            <plugin>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <attach>true</attach>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                    <encoding>UTF-8</encoding>
+                    <!--  跳过单元测试-->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <!-- 跳过单元测试-->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!-- 所有的依赖打包到一个jar中 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <artifactSet></artifactSet>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>com.yamu.bigdata.product.probe.sample.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                            <createDependencyReducedPom>false</createDependencyReducedPom>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <id>install-external</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <file>${pom.basedir}/../probe-network-commons/target/probe-network-commons.jar</file>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>com.yamu.bigdata.product.probe</groupId>
+                            <artifactId>probe-network-commons</artifactId>
+                            <version>0.0.1</version>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

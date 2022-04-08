@@ -1,0 +1,7 @@
+*/target/
+.idea
+.DS_Store
+*.log
+logs/
+*.iml
+pom.xml.versionsBackup
